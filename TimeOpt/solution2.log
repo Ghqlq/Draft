@@ -1,0 +1,163 @@
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+Tool Version Limit: 2019.12
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+==============================================================
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 3ns.
+INFO: [HLS 200-1611] Setting target device to 'xczu3eg-sfvc784-1-e'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+INFO: [HLS 200-1510] Running: set_part xczu3eg-sfvc784-1-e 
+INFO: [HLS 200-1510] Running: create_clock -period 3 -name default 
+INFO: [HLS 200-1510] Running: source ./SpMV_CSR/solution2/directives.tcl
+INFO: [HLS 200-1510] Running: set_directive_top -name spmv spmv 
+INFO: [HLS 200-1510] Running: set_directive_array_partition -dim 1 -type complete spmv rowPtr 
+INFO: [HLS 200-1510] Running: set_directive_array_partition -dim 1 -type complete spmv columnIndex 
+INFO: [HLS 200-1510] Running: set_directive_array_partition -dim 1 -type complete spmv values 
+INFO: [HLS 200-1510] Running: set_directive_array_partition -dim 1 -type complete spmv y 
+INFO: [HLS 200-1510] Running: set_directive_array_partition -dim 1 -type complete spmv x 
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 10.02 seconds; current allocated memory: 211.777 MB.
+INFO: [HLS 200-10] Analyzing design file '../../Downloads/CSR_baseline.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 0.41 seconds. CPU system time: 0.25 seconds. Elapsed time: 0.68 seconds; current allocated memory: 211.777 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 214-291] Loop 'L2' is marked as complete unroll implied by the pipeline pragma (../../Downloads/CSR_baseline.cpp:13:7)
+INFO: [HLS 214-248] Applying array_partition to 'rowPtr': Complete partitioning on dimension 1. (../../Downloads/CSR_baseline.cpp:9:0)
+INFO: [HLS 214-248] Applying array_partition to 'columnIndex': Complete partitioning on dimension 1. (../../Downloads/CSR_baseline.cpp:9:0)
+INFO: [HLS 214-248] Applying array_partition to 'values': Complete partitioning on dimension 1. (../../Downloads/CSR_baseline.cpp:9:0)
+INFO: [HLS 214-248] Applying array_partition to 'y': Complete partitioning on dimension 1. (../../Downloads/CSR_baseline.cpp:9:0)
+INFO: [HLS 214-248] Applying array_partition to 'x': Complete partitioning on dimension 1. (../../Downloads/CSR_baseline.cpp:9:0)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 4.08 seconds. CPU system time: 0.34 seconds. Elapsed time: 4.42 seconds; current allocated memory: 212.816 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 212.816 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 213.469 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 213.535 MB.
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'L1' (../../Downloads/CSR_baseline.cpp:12) in function 'spmv' for pipelining.
+WARNING: [HLS 200-932] Cannot unroll loop 'L2' (../../Downloads/CSR_baseline.cpp:12) in function 'spmv' completely: variable loop bound.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.11 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.12 seconds; current allocated memory: 235.531 MB.
+WARNING: [HLS 200-960] Cannot flatten loop 'L1' (../../Downloads/CSR_baseline.cpp:12:8) in function 'spmv' the outer loop is not a perfect loop because there is nontrivial logic before entering the inner loop.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.07 seconds. CPU system time: 0 seconds. Elapsed time: 0.08 seconds; current allocated memory: 235.531 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'spmv' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'spmv' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+WARNING: [SCHED 204-65] Unable to satisfy pipeline directive for loop 'L1': contains subloop(s) that are not unrolled or flattened.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.24 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.25 seconds; current allocated memory: 235.531 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.31 seconds. CPU system time: 0 seconds. Elapsed time: 0.31 seconds; current allocated memory: 235.531 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'spmv' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr_0' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr_1' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr_2' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr_3' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr_4' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_0' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_1' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_2' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_3' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_4' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_5' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_6' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_7' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex_8' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_0' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_1' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_2' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_3' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_4' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_5' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_6' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_7' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values_8' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/y_0' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/y_1' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/y_2' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/y_3' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/x_0' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/x_1' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/x_2' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/x_3' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'spmv' to 'ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Generating core module 'fadd_32ns_32ns_32_13_no_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'fmul_32ns_32ns_32_8_max_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mux_42_32_1_1': 3 instance(s).
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+Tool Version Limit: 2019.12
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+==============================================================
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 3ns.
+INFO: [HLS 200-1611] Setting target device to 'xczu3eg-sfvc784-1-e'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+INFO: [HLS 200-1510] Running: set_part xczu3eg-sfvc784-1-e 
+INFO: [HLS 200-1510] Running: create_clock -period 3 -name default 
+INFO: [HLS 200-1510] Running: source ./SpMV_CSR/solution2/directives.tcl
+INFO: [HLS 200-1510] Running: set_directive_top -name spmv spmv 
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 10.03 seconds; current allocated memory: 211.773 MB.
+INFO: [HLS 200-10] Analyzing design file '../../Downloads/CSR_baseline.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 0.39 seconds. CPU system time: 0.23 seconds. Elapsed time: 0.61 seconds; current allocated memory: 211.773 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 214-291] Loop 'L2' is marked as complete unroll implied by the pipeline pragma (../../Downloads/CSR_baseline.cpp:13:7)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 3.78 seconds. CPU system time: 0.31 seconds. Elapsed time: 4.09 seconds; current allocated memory: 212.602 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 212.602 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 213.207 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 213.270 MB.
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'L1' (../../Downloads/CSR_baseline.cpp:12) in function 'spmv' for pipelining.
+WARNING: [HLS 200-932] Cannot unroll loop 'L2' (../../Downloads/CSR_baseline.cpp:12) in function 'spmv' completely: variable loop bound.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.05 seconds. CPU system time: 0 seconds. Elapsed time: 0.05 seconds; current allocated memory: 234.707 MB.
+WARNING: [HLS 200-960] Cannot flatten loop 'L1' (../../Downloads/CSR_baseline.cpp:12:8) in function 'spmv' the outer loop is not a perfect loop because there is nontrivial logic in the loop latch.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.06 seconds; current allocated memory: 234.895 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'spmv' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'spmv_Pipeline_L2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+WARNING: [SCHED 204-65] Unable to satisfy pipeline directive for function 'spmv_Pipeline_L2': contains subloop(s) that are not unrolled.
+INFO: [SCHED 204-61] Pipelining loop 'L2'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 11, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+WARNING: [HLS 200-880] The II Violation in module 'spmv_Pipeline_L2' (loop 'L2'): Unable to enforce a carried dependence constraint (II = 12, distance = 1, offset = 0) between 'store' operation ('y0_write_ln13', ../../Downloads/CSR_baseline.cpp:13) of variable 'y0', ../../Downloads/CSR_baseline.cpp:17 on local variable 'y0' and 'load' operation ('y0_load', ../../Downloads/CSR_baseline.cpp:17) on local variable 'y0'.
+INFO: [HLS 200-1470] Pipelining result : Target II = NA, Final II = 13, Depth = 26, loop 'L2'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.19 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.22 seconds; current allocated memory: 236.465 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.3 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.31 seconds; current allocated memory: 236.465 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'spmv' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+WARNING: [SCHED 204-67] Unable to satisfy pipeline directive for loop 'L1': contains subfunction 'spmv_Pipeline_L2' which is not pipelined.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.18 seconds. CPU system time: 0 seconds. Elapsed time: 0.18 seconds; current allocated memory: 236.922 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.09 seconds. CPU system time: 0 seconds. Elapsed time: 0.09 seconds; current allocated memory: 236.922 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'spmv_Pipeline_L2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'spmv_Pipeline_L2' pipeline 'L2' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'fadd_32ns_32ns_32_13_no_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'fmul_32ns_32ns_32_8_max_dsp_1': 1 instance(s).

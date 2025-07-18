@@ -1,0 +1,74 @@
+INFO: [HLS 200-10] Running '/tools/Xilinx/Vitis_HLS/2022.2/bin/unwrapped/lnx64.o/vitis_hls'
+INFO: [HLS 200-10] For user 'student' on host 'workspace' (Linux_x86_64 version 6.8.0-60-generic) on Fri Jul 18 12:10:51 CEST 2025
+INFO: [HLS 200-10] On os Ubuntu 22.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/student/Desktop/SpMV'
+Sourcing Tcl script '/home/student/Desktop/SpMV/SpMV_CSR/Standard/csynth.tcl'
+INFO: [HLS 200-1510] Running: source /home/student/Desktop/SpMV/SpMV_CSR/Standard/csynth.tcl
+INFO: [HLS 200-1510] Running: open_project SpMV_CSR 
+INFO: [HLS 200-10] Opening project '/home/student/Desktop/SpMV/SpMV_CSR'.
+INFO: [HLS 200-1510] Running: set_top spmv 
+INFO: [HLS 200-1510] Running: add_files ../../Downloads/CSR_baseline.cpp 
+INFO: [HLS 200-10] Adding design file '../../Downloads/CSR_baseline.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files ../../Downloads/CSR_baseline.h 
+INFO: [HLS 200-10] Adding design file '../../Downloads/CSR_baseline.h' to the project
+INFO: [HLS 200-1510] Running: add_files -tb ../../Downloads/CSR_tb.cpp 
+INFO: [HLS 200-10] Adding test bench file '../../Downloads/CSR_tb.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution Standard -flow_target vivado 
+INFO: [HLS 200-10] Opening solution '/home/student/Desktop/SpMV/SpMV_CSR/Standard'.
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 3ns.
+INFO: [HLS 200-1611] Setting target device to 'xczu3eg-sfvc784-1-e'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xczu3eg-sfvc784-1-e 
+INFO: [HLS 200-1510] Running: create_clock -period 3 -name default 
+INFO: [HLS 200-1510] Running: source ./SpMV_CSR/Standard/directives.tcl
+INFO: [HLS 200-1510] Running: set_directive_top -name spmv spmv 
+INFO: [HLS 200-1510] Running: csynth_design 
+Running Dispatch Server on port: 37987
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 10.04 seconds; current allocated memory: 244.434 MB.
+INFO: [HLS 200-10] Analyzing design file '../../Downloads/CSR_baseline.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 0.4 seconds. CPU system time: 0.25 seconds. Elapsed time: 0.66 seconds; current allocated memory: 244.434 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 3.96 seconds. CPU system time: 0.39 seconds. Elapsed time: 4.35 seconds; current allocated memory: 244.758 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 244.758 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 245.367 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 245.434 MB.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.05 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.06 seconds; current allocated memory: 266.867 MB.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 266.867 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'spmv' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'spmv' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.2 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.2 seconds; current allocated memory: 266.867 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.35 seconds. CPU system time: 0 seconds. Elapsed time: 0.35 seconds; current allocated memory: 266.867 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'spmv' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/rowPtr' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/columnIndex' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/values' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/y' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'spmv/x' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'spmv' to 'ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Generating core module 'fadd_32ns_32ns_32_13_no_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'fmul_32ns_32ns_32_8_max_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'spmv'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.18 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.19 seconds; current allocated memory: 266.867 MB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 0.57 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.58 seconds; current allocated memory: 266.867 MB.
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 0.51 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.52 seconds; current allocated memory: 269.621 MB.
+INFO: [VHDL 208-304] Generating VHDL RTL for spmv.
+INFO: [VLOG 209-307] Generating Verilog RTL for spmv.
+INFO: [HLS 200-790] **** Loop Constraint Status: All loop constraints were satisfied.
+INFO: [HLS 200-789] **** Estimated Fmax: 457.67 MHz
+INFO: [HLS 200-111] Finished Command csynth_design CPU user time: 6.3 seconds. CPU system time: 0.71 seconds. Elapsed time: 7.01 seconds; current allocated memory: 25.270 MB.
+INFO: [HLS 200-112] Total CPU user time: 8.34 seconds. Total CPU system time: 0.94 seconds. Total elapsed time: 19.15 seconds; peak allocated memory: 269.703 MB.

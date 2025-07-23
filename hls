@@ -154,3 +154,63 @@ int main(){
 		printf("PASS\n");
 	return fail;
 }
+
+
+
+
+-----------------------------------------------------------------
+// === File: csr_spmv.cpp ===
+#include <hls_stream.h>
+#include "csr_spmv.h"
+
+void csr_spmv(
+    hls::stream<int>& in_fifo,
+    hls::stream<int>& out_fifo
+) {
+#pragma HLS INTERFACE axis port=in_fifo
+#pragma HLS INTERFACE axis port=out_fifo
+#pragma HLS INTERFACE s_axilite port=return
+
+    const int NUM_ROWS = 4;
+    const int NNZ = 9;
+    const int TOTAL = NUM_ROWS + 1 + NNZ + NNZ + NUM_ROWS;
+
+    int rowPtr[NUM_ROWS + 1];
+    int colIndex[NNZ];
+    int values[NNZ];
+    int x[NUM_ROWS];
+
+#pragma HLS ARRAY_PARTITION variable=rowPtr complete dim=1
+#pragma HLS ARRAY_PARTITION variable=colIndex complete dim=1
+#pragma HLS ARRAY_PARTITION variable=values complete dim=1
+#pragma HLS ARRAY_PARTITION variable=x complete dim=1
+
+    // === UNPACK STREAM ===
+    for (int i = 0; i < NUM_ROWS + 1; i++) {
+#pragma HLS PIPELINE II=1
+        rowPtr[i] = in_fifo.read();
+    }
+    for (int i = 0; i < NNZ; i++) {
+#pragma HLS PIPELINE II=1
+        colIndex[i] = in_fifo.read();
+    }
+    for (int i = 0; i < NNZ; i++) {
+#pragma HLS PIPELINE II=1
+        values[i] = in_fifo.read();
+    }
+    for (int i = 0; i < NUM_ROWS; i++) {
+#pragma HLS PIPELINE II=1
+        x[i] = in_fifo.read();
+    }
+
+    // === COMPUTE y = A*x ===
+    for (int i = 0; i < NUM_ROWS; i++) {
+        int y_val = 0;
+        for (int j = rowPtr[i]; j < rowPtr[i+1]; j++) {
+            y_val += values[j] * x[colIndex[j]];
+        }
+        out_fifo.write(y_val);
+    }
+}
+
+

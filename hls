@@ -346,3 +346,15 @@ int main()
 
     return fail ? 1 : 0;
 }
+
+
+
+	for(int i = 0; i < SIZE; i++){
+		if(y_sw[i] != y[i])
+			fail = 1;
+	if(fail == 1)
+		printf("FAILED\n");
+	else
+		printf("PASS\n");
+	return fail;
+}

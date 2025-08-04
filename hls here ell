@@ -1,0 +1,68 @@
+//
+// Created by Ghala Buarish on 8/1/25.
+//
+
+#include "ELL_spmv.h"
+
+#include <hls_stream.h>
+#include <ap_axi_sdata.h>
+
+void spmv_ell(hls::stream<DTYPE> &in_fifo, hls::stream<DTYPE> &out_fifo) {
+
+#pragma HLS INTERFACE axis port = in_fifo
+#pragma HLS INTERFACE axis port = out_fifo
+#pragma HLS INTERFACE mode=ap_ctrl_hs port=return
+
+	DTYPE ell_values[ROWS][MAX_NNZ];
+	int ell_col_index[ROWS][MAX_NNZ];
+	DTYPE x[ROWS];
+
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < MAX_NNZ; j++) {
+			ell_values[i][j] = in_fifo.read();
+		}
+	}
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < MAX_NNZ; j++) {
+			ell_col_index[i][j] = (int)in_fifo.read();
+		}
+	}
+	for (int i = 0; i < ROWS; i++) {
+		x[i] = in_fifo.read();
+	}
+	L1: for (int i = 0; i < ROWS; i++) {
+		DTYPE y0 = 0;
+		L2:for (int j = 0; j < MAX_NNZ; j++) {
+			int col = ell_col_index[i][j];
+			if (col != -1) {
+				y0 += ell_values[i][j] * x[col];
+			}
+		}
+		out_fifo.write(y0);
+	}
+}
+
+
+
+header file:
+
+//
+// Created by Ghala Buarish on 8/1/25.
+//
+
+#ifndef ELL_SPMV_H
+#define ELL_SPMV_H
+
+#include <hls_stream.h>
+#include <ap_axi_sdata.h>
+
+const static int ROWS = 4;
+const static int MAX_NNZ  = 3;
+const static int TOTAL = ROWS * MAX_NNZ * 2 + 4; // ell_values + ell_col_index + x
+
+typedef float DTYPE;
+
+void spmv_ell(hls::stream<DTYPE> &in_fifo, hls::stream<DTYPE> &out_fifo);
+
+#endif //ELL_SPMV_H
+

@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 256
+#define DENSITY 0.01  // 1% non-zero entries
+#define NNZ_ESTIMATE (int)(SIZE * SIZE * DENSITY)
+#define TOTAL_INPUT_SIZE (SIZE + 1 + NNZ_ESTIMATE * 2 + SIZE)
+
+typedef float DTYPE;
+
+// Generates sparse matrix and converts to CSR format with a fixed seed
+void generate_csr_input(int *row_ptr, int *col_index, DTYPE *values, DTYPE *x, DTYPE *full_input, int *nnz_out) {
+    int nnz = 0;
+    int idx = 0;
+
+    srand(42);  // Fixed seed for repeatable results
+
+    row_ptr[0] = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if ((float)rand() / RAND_MAX < DENSITY) {
+                if (nnz >= NNZ_ESTIMATE) break;
+                col_index[nnz] = j;
+                values[nnz] = (DTYPE)((float)(rand() % 100) / 10.0);  // Random value 0.0–10.0
+                nnz++;
+            }
+        }
+        row_ptr[i + 1] = nnz;
+    }
+
+    // Input vector x
+    for (int i = 0; i < SIZE; i++) {
+        x[i] = (DTYPE)((float)(rand() % 100) / 10.0);
+    }
+
+    // Create full_input: [row_ptr | col_index | values | x]
+    int full_idx = 0;
+
+    for (int i = 0; i <= SIZE; i++)
+        full_input[full_idx++] = (DTYPE)row_ptr[i];
+
+    for (int i = 0; i < nnz; i++)
+        full_input[full_idx++] = (DTYPE)col_index[i];
+
+    for (int i = 0; i < nnz; i++)
+        full_input[full_idx++] = values[i];
+
+    for (int i = 0; i < SIZE; i++)
+        full_input[full_idx++] = x[i];
+
+    *nnz_out = nnz;
+}
+
+int main() {
+    int row_ptr[SIZE + 1];
+    int col_index[NNZ_ESTIMATE];
+    DTYPE values[NNZ_ESTIMATE];
+    DTYPE x[SIZE];
+    DTYPE full_input[TOTAL_INPUT_SIZE];
+    int nnz;
+
+    generate_csr_input(row_ptr, col_index, values, x, full_input, &nnz);
+
+    printf("✅ Generated 256x256 CSR matrix with ~%d non-zeros.\n", nnz);
+    printf("First 10 values in full_input array:\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%.2f ", full_input[i]);
+    }
+    printf("\n");
+
+    return 0;
+}

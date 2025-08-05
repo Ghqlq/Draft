@@ -1,25 +1,24 @@
+//
+// Created by Ghala Buarish on 7/17/25.
+//
+#include "CSR_baseline.h"
 #include <stdio.h>
+#include <fstream>
+#include <iostream>
 #include <stdlib.h>
 
-#define SIZE 256
-#define DENSITY 0.01  // 1% non-zero entries
-#define NNZ_ESTIMATE (int)(SIZE * SIZE * DENSITY)
-#define TOTAL_INPUT_SIZE (SIZE + 1 + NNZ_ESTIMATE * 2 + SIZE)
 
-typedef float DTYPE;
-
-// Generates sparse matrix and converts to CSR format with a fixed seed
 void generate_csr_input(int *row_ptr, int *col_index, DTYPE *values, DTYPE *x, DTYPE *full_input, int *nnz_out) {
     int nnz = 0;
     int idx = 0;
 
-    srand(42);  // Fixed seed for repeatable results
+    srand(42);
 
     row_ptr[0] = 0;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if ((float)rand() / RAND_MAX < DENSITY) {
-                if (nnz >= NNZ_ESTIMATE) break;
+                if (nnz >= NNZ) break;
                 col_index[nnz] = j;
                 values[nnz] = (DTYPE)((float)(rand() % 100) / 10.0);  // Random value 0.0–10.0
                 nnz++;
@@ -28,12 +27,10 @@ void generate_csr_input(int *row_ptr, int *col_index, DTYPE *values, DTYPE *x, D
         row_ptr[i + 1] = nnz;
     }
 
-    // Input vector x
     for (int i = 0; i < SIZE; i++) {
         x[i] = (DTYPE)((float)(rand() % 100) / 10.0);
     }
 
-    // Create full_input: [row_ptr | col_index | values | x]
     int full_idx = 0;
 
     for (int i = 0; i <= SIZE; i++)
@@ -53,20 +50,109 @@ void generate_csr_input(int *row_ptr, int *col_index, DTYPE *values, DTYPE *x, D
 
 int main() {
     int row_ptr[SIZE + 1];
-    int col_index[NNZ_ESTIMATE];
-    DTYPE values[NNZ_ESTIMATE];
+    int col_index[NNZ];
+    DTYPE values[NNZ];
     DTYPE x[SIZE];
-    DTYPE full_input[TOTAL_INPUT_SIZE];
+    DTYPE full_input[TOTAL];
     int nnz;
 
     generate_csr_input(row_ptr, col_index, values, x, full_input, &nnz);
 
-    printf("✅ Generated 256x256 CSR matrix with ~%d non-zeros.\n", nnz);
-    printf("First 10 values in full_input array:\n");
-    for (int i = 0; i < 10; i++) {
-        printf("%.2f ", full_input[i]);
-    }
-    printf("\n");
+	hls::stream<DTYPE> y;
+	hls::stream<DTYPE> input;
 
+
+	for (int i=0; i<TOTAL; i++){
+		input.write(full_input[i]);
+	}
+
+	spmv(input, y);
+
+	for(int i = 0; i < SIZE; i++){
+		std::cout << y.read() << " ";
+	}
     return 0;
 }
+
+//
+// Created by Ghala Buarish on 7/17/25.
+//
+
+#include "CSR_baseline.h"
+#include <hls_stream.h>
+#include <ap_axi_sdata.h>
+
+void spmv(hls::stream<DTYPE> &in_fifo, hls::stream<DTYPE> &out_fifo) {
+
+#pragma HLS INTERFACE axis port = in_fifo
+#pragma HLS INTERFACE axis port = out_fifo
+#pragma HLS INTERFACE mode=ap_ctrl_hs port=return
+
+
+	int rowPtr[NUM_ROWS +1];
+	int columnIndex[NNZ];
+	DTYPE values[NNZ];
+	DTYPE x[SIZE];
+	DTYPE y[SIZE];
+
+
+	spmv_label0:for (int i=0; i<NUM_ROWS+1; i++) {
+		rowPtr[i] = (int)in_fifo.read();
+	}
+
+	spmv_label1:for (int i = 0; i < NNZ; i++){
+		columnIndex[i] = (int)in_fifo.read();
+	}
+	spmv_label2:for (int i = 0; i < NNZ; i++) {
+		values[i] = in_fifo.read();
+	}
+
+	spmv_label3:for (int i = 0; i < SIZE; i++) {
+		x[i] = in_fifo.read();
+	}
+
+
+	L1: for (int i = 0; i < NUM_ROWS; i++) {
+#pragma HLS PIPELINE off
+		DTYPE y0 = 0;
+		L2: for (int k = rowPtr[i]; k < rowPtr[i+1]; k++) {
+#pragma HLS PIPELINE off
+
+			y0 += values[k] * x[columnIndex[k]];
+		}
+		out_fifo.write(y0);
+	}
+
+}
+
+//
+// Created by Ghala Buarish on 7/17/25.
+//
+
+#ifndef CSR_BASELINE_H
+#define CSR_BASELINE_H
+
+#include <hls_stream.h>
+#include <ap_axi_sdata.h>
+
+//const static int SIZE = 4;
+//const static int NNZ = 9;
+//const static int NUM_ROWS = 4;
+//const static int TOTAL = NUM_ROWS+1 + NNZ + NNZ + SIZE;
+
+#define SIZE 256
+const static int NUM_ROWS = SIZE;
+#define DENSITY 0.01
+#define NNZ (int)(SIZE * SIZE * DENSITY)
+#define TOTAL (SIZE + 1 + NNZ * 2 + SIZE)
+
+typedef int DTYPE;
+
+// void spmv(int rowPtr[NUM_ROWS+1], int columnIndex[NNZ],
+// 		  DTYPE values[NNZ], DTYPE y[SIZE], DTYPE x[SIZE]);
+
+void spmv(hls::stream<DTYPE> &in_fifo, hls::stream<DTYPE> &out_fifo);
+
+#endif // CSR_BASELINE_H
+
+
